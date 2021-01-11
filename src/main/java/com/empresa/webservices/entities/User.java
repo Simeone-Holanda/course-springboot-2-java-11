@@ -1,11 +1,14 @@
 package com.empresa.webservices.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 //Relebrando smp importa o javax.pesistence para o jpa 
 
@@ -23,6 +26,9 @@ public class User implements Serializable{
 	private String email;
 	private String fone;
 	private String password;
+	
+	@OneToMany(mappedBy = "client") // sabendo q a relação de muitos para 1 na classe Order esta na variavel cliente ent colocamos ela no parentes
+	private List<Order> orders = new ArrayList<>();
 	
 	public User() { // quando se trabalha com frameworks é importante o uso de um construtor vazio
 	}
@@ -76,6 +82,10 @@ public class User implements Serializable{
 		this.password = password;
 	}
 
+	public List<Order> getOrders() {
+		return orders;
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -100,6 +110,5 @@ public class User implements Serializable{
 			return false;
 		return true;
 	}
-	
 	
 }
