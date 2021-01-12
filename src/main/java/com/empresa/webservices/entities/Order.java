@@ -11,6 +11,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.jsonFormatVisitors.JsonFormatTypes;
+
 @Entity
 @Table( name = "tb_order")
 public class Order implements Serializable{
@@ -19,8 +23,12 @@ public class Order implements Serializable{
 	@Id
 	@GeneratedValue( strategy = GenerationType.IDENTITY)
 	private Long id;
+	
+	//configuração do formato da hora para ISO 8601, para garantir q seja mostrado esse formato no json do postman
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'",timezone = "GMT")
 	private Instant moment;
 	
+	// se eu usasse o @JsonIgnore aq ele iria mostra todos os pedidos do usuario contudo n mostraria seus dados completo
 	@ManyToOne // sabendo q temos uma relação de muitos para um essa anotação para instruir meu JPA para transforma isso em uma chave extrangeira 
 	@JoinColumn( name = "client_id") // essa anotação serve para indicar o nome da chave extrangeira q vai ter no JPA 
 	private User client;

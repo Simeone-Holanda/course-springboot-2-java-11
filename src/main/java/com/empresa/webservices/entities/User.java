@@ -10,6 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 //Relebrando smp importa o javax.pesistence para o jpa 
 
 @Entity
@@ -27,6 +29,11 @@ public class User implements Serializable{
 	private String fone;
 	private String password;
 	
+	/* para q a metodologia de muitos para um faça sentido e que no postman mostre os usuarios daquele pedido 
+	usuaremos essa anoção, caso contrario o bd vai entrar em loop com um usuario fzd um pedido o cliente do 
+	pedido fzd um usuario e assim vai (@JsonIgnore), agr aparece todos os usuarios desse pedido*/
+
+	@JsonIgnore 
 	@OneToMany(mappedBy = "client") // sabendo q a relação de muitos para 1 na classe Order esta na variavel cliente ent colocamos ela no parentes
 	private List<Order> orders = new ArrayList<>();
 	
