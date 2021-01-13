@@ -11,6 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.empresa.webservices.entities.enums.OrderStatus;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.jsonFormatVisitors.JsonFormatTypes;
@@ -28,6 +29,7 @@ public class Order implements Serializable{
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'",timezone = "GMT")
 	private Instant moment;
 	
+	private Integer orderStatus;
 	// se eu usasse o @JsonIgnore aq ele iria mostra todos os pedidos do usuario contudo n mostraria seus dados completo
 	@ManyToOne // sabendo q temos uma relação de muitos para um essa anotação para instruir meu JPA para transforma isso em uma chave extrangeira 
 	@JoinColumn( name = "client_id") // essa anotação serve para indicar o nome da chave extrangeira q vai ter no JPA 
@@ -37,10 +39,11 @@ public class Order implements Serializable{
 	public Order() {}
 
 
-	public Order(Long id, Instant moment, User client) {
+	public Order(Long id, Instant moment, OrderStatus orderStatus, User client) {
 		super();
 		this.id = id;
 		this.moment = moment;
+		setOrderStatus(orderStatus); // usado o set pq nessa classe o tipo enum foi colocado como inteiro para ficar melhor no db
 		this.client = client;
 	}
 
@@ -56,12 +59,24 @@ public class Order implements Serializable{
 
 
 	public Instant getMoment() {
-		return moment;
+		return moment	;
 	}
 
 
 	public void setMoment(Instant moment) {
 		this.moment = moment;
+	}
+	
+
+	public OrderStatus getOrderStatus() {
+		return OrderStatus.valueOf(orderStatus); // usando o metodo q pega o tipo pelo codigo 
+	}
+
+
+	public void setOrderStatus(OrderStatus orderStatus) {
+		if(orderStatus != null) {
+			this.orderStatus = orderStatus.getCode(); // pegando o codigo pelo tipo
+		}
 	}
 
 

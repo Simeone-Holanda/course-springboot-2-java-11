@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Profile;
 
 import com.empresa.webservices.entities.Order;
 import com.empresa.webservices.entities.User;
+import com.empresa.webservices.entities.enums.OrderStatus;
 import com.empresa.webservices.repositories.OrderRepository;
 import com.empresa.webservices.repositories.UserRepository;
 
@@ -42,9 +43,9 @@ public class TestConfig implements CommandLineRunner{
 		//O Instant é como se fosse um Date porem no formato de string, o T e o Z é para indica o formato UTC
 		// e smp vai pegar o formato local do país
 		
-		Order o1 = new Order(null, Instant.parse("2020-01-03T15:30:19Z"),u1); 		
-		Order o2 = new Order(null, Instant.parse("2020-01-01T16:40:13Z"),u2);
-		Order o3 = new Order(null, Instant.parse("2020-01-02T17:58:09Z"),u1);
+		Order o1 = new Order(null, Instant.parse("2020-01-03T15:30:19Z"),OrderStatus.PAID,u1); 		
+		Order o2 = new Order(null, Instant.parse("2020-01-01T16:40:13Z"),OrderStatus.WAITING_PAYMENT,u2);
+		Order o3 = new Order(null, Instant.parse("2020-01-02T17:58:09Z"),OrderStatus.CANCELED,u1);
 		// adicionando os elementos ao bd, vale lembrar que o atributo userRe... é um é tipo da nossa interface UserR...,
 		// que herda todos os atributos para manipular nosso banco e dessa forma fazemos a injeção de dependencia
 		// mais organizada.
