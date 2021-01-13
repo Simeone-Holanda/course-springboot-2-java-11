@@ -8,9 +8,11 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
+import com.empresa.webservices.entities.Category;
 import com.empresa.webservices.entities.Order;
 import com.empresa.webservices.entities.User;
 import com.empresa.webservices.entities.enums.OrderStatus;
+import com.empresa.webservices.repositories.CategoryRepository;
 import com.empresa.webservices.repositories.OrderRepository;
 import com.empresa.webservices.repositories.UserRepository;
 
@@ -31,11 +33,20 @@ public class TestConfig implements CommandLineRunner{
 	@Autowired
 	private OrderRepository orderRepository;
 	
+	@Autowired
+	private CategoryRepository categoryRepository;
+	
+	
 	
 	@Override
 	public void run(String... args) throws Exception { 
 		//Esse metodo é implementação do CommandLineRunner que é um metodo para ser executado qnd o programa for iniciado
 		
+		Category cat1 = new Category(null, "Electronics");
+		Category cat2 = new Category(null, "Books");
+		Category cat3 = new Category(null, "Computers");
+		
+		categoryRepository.saveAll(Arrays.asList(cat1, cat2, cat3));
 		
 		User u1 = new User(null,"Simeone", "simeone@gmail.com","999878378","123456");
 		User u2 = new User(null,"Simes", "simes@gmail.com","9998556378","6543210");
